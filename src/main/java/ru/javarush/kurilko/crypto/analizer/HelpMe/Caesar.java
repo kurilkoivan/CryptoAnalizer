@@ -1,18 +1,16 @@
 package ru.javarush.kurilko.crypto.analizer.HelpMe;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 public class Caesar {
     char [] input;
     int key;
     void encrypt() throws IOException {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the String : ");
-        String ip = sc.nextLine();
-                   //- вопрос заключается в том что когда указываю путь например через Files.readString
-                   // у меня верно считывается файл но когда я пытаюсь его записать/перезаписать он всегда пуст
-                    //BufferedReader reader = new BufferedReader(new FileReader("C:\\Logs\\input.txt"));
-                    //String ip = String.valueOf(reader);
+
+           String ip =  Files.readString(Path.of("C:\\Logs\\input.txt"));
             input = ip.toCharArray();
             System.out.print("Enter the key : ");
             key = sc.nextInt();
@@ -35,14 +33,18 @@ public class Caesar {
             }
 
         System.out.println("Encrypted String : " + String.valueOf(input) + "\n");
-        //BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Logs\\input.txt"));
-         //   writer.write(input);
+        FileWriter writer = new  FileWriter("C:\\Logs\\input.txt");
+            writer.write(input);
+        FileWriter writerOld = new  FileWriter("C:\\Logs\\out.txt");
+        writerOld.write(input);
+        writer.close();
+        writerOld.close();
     }
-    void decrypt()
-    {
+    void decrypt() throws IOException {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the String : ");
-        String ip = sc.nextLine();
+
+
+        String ip =  Files.readString(Path.of("C:\\Logs\\input.txt"));
         input = ip.toCharArray();
         System.out.print("Enter the key : ");
         key = sc.nextInt();
@@ -71,12 +73,13 @@ public class Caesar {
             }
         }
         System.out.println("Decrypted String : " + String.valueOf(input) + "\n");
+        FileWriter writer = new  FileWriter("C:\\Logs\\input.txt");
+        writer.write(input);
+        writer.close();
     }
-    void bruteforce()
-    {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the String : ");
-        String ip = sc.nextLine();
+    void bruteforce() throws IOException {
+        String ip =  Files.readString(Path.of("C:\\Logs\\out.txt"));
+
         input = ip.toCharArray();
         for(key=1;key<27;key++)
         {
@@ -105,8 +108,9 @@ public class Caesar {
                 }
             }
             System.out.println("Key = " + key + " Decrypted String : " + String.valueOf(input));
-            input = ip.toCharArray();
+
         }
+
     }
 
     public static void main(String[] args) throws IOException {
